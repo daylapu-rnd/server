@@ -30,17 +30,6 @@ def CreateTable(table_name):
     cur.execute(f"CREATE TABLE {table_name}({columns})")
 
 
-def UpdateData(T, U, S, C, V):
-    """Edit data from the database"""
-    try:
-        cur.execute(f'UPDATE {T} SET {U} = ({S}) WHERE {C} = "{V}"')
-        con.commit()
-        return[1, 2]
-    except Exception as e:
-        log_error(e)
-        return[]
-
-
 def InsertData(T, V, C=""):
     """Entering data into the database"""
     try:
