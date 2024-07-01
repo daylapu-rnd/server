@@ -15,7 +15,7 @@ def CreateTable(table_name):
     columns = ""
     match table_name:
         case 'users':
-            columns = 'id TEXT PRIMARY KEY, name TEXT, numb TEXT, id_tg TEXT, surname TEXT'
+            columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
 
         case _:
             raise ValueError(f"Unknown table name '{table_name}'")
