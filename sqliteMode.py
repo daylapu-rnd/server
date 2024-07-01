@@ -1,40 +1,33 @@
 from loader import *
 
+def TableExists(table_name):
+    """Check if a table exists in the database"""
+    cur.execute("SELECT count(name) FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+    if cur.fetchone()[0] == 1:
+        return True
+    else:
+        return False
 
 
-
-# def TableExists(table_name):
-#     """Check if a table exists in the database"""
-#     cur.execute("SELECT count(name) FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
-#     if cur.fetchone()[0] == 1:
-#         return True
-#     else:
-#         return False
-#
-#
-# def CreateTable(table_name):
-#     """Create a table in the database"""
-#     columns = ""
-#     match table_name:
-#         case 'users':
-#             columns = 'id TEXT PRIMARY KEY, name TEXT, numb TEXT, id_tg TEXT, surname TEXT'
-#         case 'trips':
-#             columns = 'user_id TEXT, typeofmembers TEXT, tripsdates TEXT, tripstimes TEXT, direction_name TEXT, route_number INTEGER, pointa INTEGER, pointb INTEGER, id_trip TEXT, number_of_passengers INTEGER, status TEXT'
-#         case 'transactions':
-#             columns = 'id TEXT PRIMARY KEY, user_id, summ TEXT, date_time TEXT, type_of_transaction TEXT'
-#         case 'drivers':
-#             columns = 'user_id TEXT, brand TEXT, colour TEXT, numbcar TEXT, car_id TEXT'
-#         case 'balance':
-#             columns = 'id TEXT PRIMARY KEY, user_id TEXT, summ TEXT'
-#         case 'agreedTrips':
-#             columns = 'agreeing_trips_id TEXT, driver_trip_id TEXT, maximum_number_of_passengers INTEGER, number_of_passengers INTEGER, ids_trips TEXT, status TEXT'
-#         case 'agreement':
-#             columns = 'id_agreement TEXT, user_tg_id TEXT, response INT, datetime TEXT'
-#         case 'is_become_driver':
-#             columns = 'id_become TEXT, id_user TEXT, status INTEGER, datetime TEXT'
-#         case _:
-#             raise ValueError(f"Unknown table name '{table_name}'")
-#     cur.execute(f"CREATE TABLE {table_name}({columns})")
+def CreateTable(table_name):
+    """Create a table in the database"""
+    columns = ""
+    match table_name:
+        case 'clients':
+            columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
+        case 'orders':
+            columns = 'order_id TEXT, client_id TEXT, pet_id TEXT, order_type TEXT, OrderCreationDate TEXT, OrderCompletionDate TEXT, payment_status TEXT'
+        case 'pets':
+            columns = 'pet_id TEXT, client_id TEXT, pet_name TEXT, pet_type TEXT, sex TEXT, bitrhday TEXT, features TEXT, sterilization INT'
+        case 'executors':
+            columns = 'executor_id TEXT, city TEXT, second_name TEXT, first_name TEXT, patronymic TEXT, email TEXT, link TEXT, about TEXT, phone'
+        case 'executor_payment':
+            columns = 'payment_exec_id TEXT, executor_id, payment_date TEXT, summ TEXT'
+        case 'executor_passport':
+            columns = 'passport_id TEXT, executor_id TEXT, series TEXT, numb TEXT, date_of_issue TEXT, plase_of_registration TEXT, division_code TEXT, marital_status TEXT'
+        case _:
+            raise ValueError(f"Unknown table name '{table_name}'")
+    cur.execute(f"CREATE TABLE {table_name}({columns})")
 
 
 def UpdateData(T, U, S, C, V):
@@ -47,4 +40,64 @@ def UpdateData(T, U, S, C, V):
         return[]
 
 
+def InsertData(T, V, C=""):
+    """Entering data into the database"""
+    try:
+        if not TableExists(T):
+            CreateTable(T)
+        cur.execute(f'INSERT INTO {T} {C} VALUES({V})')
+        con.commit()
+        return [1, 2]
+    except Exception as e:
+        print(e)
+        return []
+
+
+def DeleteData(T, V, C):
+    """Delete data into the database"""
+    try:
+        cur.execute(f'DELETE FROM {T} WHERE {V} = ?', (C,))
+        con.commit()
+        return[1, 2]
+    except Exception as e:
+        return []
+
+
+
+def SelectData(T, C, V, S="*"):
+    """Sending data from the database"""
+    try:
+        cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
+        return [dict(zip([key[0] for key in cur.description], row)) for row in cur.fetchall()][0]
+    except Exception as e:
+        return []
+
+
+
+def UpdateData(T, U, S, C, V):
+    """Edit data from the database"""
+    try:
+        cur.execute(f'UPDATE {T} SET {U} = ({S}) WHERE {C} = "{V}"')
+        con.commit()
+        return[1, 2]
+    except Exception as e:
+        return[e]
+
+
+
+def SelectAllData(T, C, V, S="*"):
+    """Sending an array of data from a database"""
+    try:
+        cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
+        data = cur.fetchall()
+        newList = [
+            [
+                dict(zip([key[0] for key in cur.description], row))
+                for row in data
+            ][i]
+            for i in range(len(data))
+        ]
+        return newList
+    except Exception as e:
+        return []
 
