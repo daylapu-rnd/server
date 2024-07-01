@@ -5,7 +5,6 @@ import sqlite3 as sq
 import os
 
 from utils import *
-from sqliteMode import *
 
 # create flask object
 app = Flask(__name__)
