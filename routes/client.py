@@ -34,10 +34,7 @@ def profile_change_info():
         check = UpdateData("clients", updateable_table, values, "tg_id", tg_id)
         if len(check) > 1:
             return jsonify({"action": "success"})
-        else:
-            return jsonify({"action": "errorData"})
-
-        return jsonify({"action": "success"})
+        return jsonify({"action": "errorData"})
     except Exception as e:
         log_error(e)
-        return jsonify({"action": "errorData"})
+        return jsonify({"action": "errorData 2"})

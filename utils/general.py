@@ -22,15 +22,15 @@ def log_error(error_message):
     """Records errors"""
     try:
         timestamp = datetime.now().strftime("%d-%b-%Y %I:%M:%S %p")
-        error_number = get_next_error_number("data//error_log.txt")
-        with open("data/error_log.txt", "a") as file:
+        error_number = get_next_error_number(".//error_log.txt")
+        with open("./error_log.txt", "a") as file:
             file.write(f"{error_number}. {timestamp} - - - {error_message}\n")
     except Exception as e:
         error_message = str(e)
     else:
         timestamp = datetime.now().strftime("%d-%b-%Y %I:%M:%S %p")
-        error_number = get_next_error_number("data//error_log.txt")
-        with open("data/error_log.txt", "a") as file:
+        error_number = get_next_error_number(".//error_log.txt")
+        with open("./error_log.txt", "a") as file:
             file.write(f"{error_number}. {timestamp} - - - {error_message}\n")
 
 def GenerateAlfNumStr(length, type_="all"):
