@@ -29,7 +29,7 @@ def UpdateData(T, U, S, C, V):
         con.commit()
         return[1, 2]
     except Exception as e:
-        print(e)
+        log_error(e)
         return[]
 
 
@@ -42,6 +42,6 @@ def InsertData(T, V, C=""):
         con.commit()
         return [1, 2]
     except Exception as e:
-        print(e)
+        log_error(e)
         return []
 

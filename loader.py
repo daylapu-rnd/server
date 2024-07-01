@@ -3,7 +3,6 @@ from flask import jsonify
 from flask import request
 import sqlite3 as sq
 import os
-
 from utils import *
 
 # create flask object
