@@ -163,3 +163,4 @@ cython_debug/
 bd.db
 bd.sqbpro
 bd.db-journal
+error_log.txt

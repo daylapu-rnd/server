@@ -3,9 +3,11 @@ from flask import jsonify
 from flask import request
 import sqlite3 as sq
 import os
-
 from utils import *
+<<<<<<< HEAD
 
+=======
+>>>>>>> 624b8e76692c2333e50502807b6cc7974bb7c33a
 
 # create flask object
 app = Flask(__name__)

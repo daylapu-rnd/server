@@ -37,6 +37,7 @@ def UpdateData(T, U, S, C, V):
         con.commit()
         return[1, 2]
     except Exception as e:
+        log_error(e)
         return[]
 
 
