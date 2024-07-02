@@ -39,7 +39,7 @@ def InsertData(T, V, C=""):
         con.commit()
         return [1, 2]
     except Exception as e:
-        print(e)
+        log_error(e)
         return []
 
 
@@ -50,6 +50,7 @@ def DeleteData(T, V, C):
         con.commit()
         return[1, 2]
     except Exception as e:
+        log_error(e)
         return []
 
 
@@ -60,6 +61,7 @@ def SelectData(T, C, V, S="*"):
         cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
         return [dict(zip([key[0] for key in cur.description], row)) for row in cur.fetchall()][0]
     except Exception as e:
+        log_error(e)
         return []
 
 
@@ -71,7 +73,8 @@ def UpdateData(T, U, S, C, V):
         con.commit()
         return[1, 2]
     except Exception as e:
-        return[e]
+        log_error(e)
+        return[]
 
 
 
@@ -89,5 +92,6 @@ def SelectAllData(T, C, V, S="*"):
         ]
         return newList
     except Exception as e:
+        log_error(e)
         return []
 
