@@ -78,19 +78,6 @@ def UpdateData(T, U, S, C, V):
         log_error(e)
         return[]
 
-def SelectAllDataWithConditions(T, C, V, S="*"):
-    """Sending an array of data from a database"""
-        cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
-        data = cur.fetchall()
-        newList = [
-            [
-                dict(zip([key[0] for key in cur.description], row))
-                for row in data
-            ][i]
-            for i in range(len(data))
-        ]
-        return newList
-
 
 def SelectAllData(T, C, V, S="*"):
     """Sending an array of data from a database"""

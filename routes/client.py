@@ -73,7 +73,6 @@ def ProfileCommand():
         return jsonify({"action": "errorData"})
 
 
-
 @app.route('/client/get_orders', methods=['POST'])
 def get_orders():
     """route for get all orders of client"""
