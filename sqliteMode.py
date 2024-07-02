@@ -16,7 +16,8 @@ def CreateTable(table_name):
         case 'clients':
             columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
         case 'orders':
-            columns = 'order_id TEXT, client_id TEXT, pet_id TEXT, order_type TEXT, OrderCreationDate TEXT, OrderCompletionDate TEXT, payment_status TEXT'
+            columns = '''order_id TEXT, client_id TEXT, pet_id TEXT, servise_type TEXT, start_date TEXT, start_time TEXT, end_date TEXT, end_time TEXT, service_details TEXT,
+            options TEXT, region TEXT, city TEXT, district TEXT, street TEXT, house TEXT, building TEXT, apartament TEXT, status TEXT'''
         case 'pets':
             columns = 'pet_id TEXT, client_id TEXT, pet_name TEXT, pet_type TEXT, sex TEXT, bitrhday TEXT, features TEXT, sterilization INT'
         case 'executors':
