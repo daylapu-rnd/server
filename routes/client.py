@@ -2,6 +2,7 @@ from loader import *
 from  sqliteMode import *
 
 
+
 @app.route('/registrations', methods=['POST'])
 def registrations():
     """route for  register users"""
