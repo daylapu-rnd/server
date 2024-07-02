@@ -45,3 +45,11 @@ def InsertData(T, V, C=""):
         log_error(e)
         return []
 
+def SelectData(T, C, V, S="*"):
+    """Sending data from the database"""
+    try:
+        cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
+        return [dict(zip([key[0] for key in cur.description], row)) for row in cur.fetchall()][0]
+    except Exception as e:
+        return []
+
