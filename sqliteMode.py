@@ -26,6 +26,8 @@ def CreateTable(table_name):
             columns = 'payment_exec_id TEXT, executor_id, payment_date TEXT, summ TEXT'
         case 'executor_passport':
             columns = 'passport_id TEXT, executor_id TEXT, series TEXT, numb TEXT, date_of_issue TEXT, plase_of_registration TEXT, division_code TEXT, marital_status TEXT'
+        case 'agreement':
+            columns = 'id_agreement TEXT, user_tg_id TEXT, response INT, datetime TEXT'
         case _:
             raise ValueError(f"Unknown table name '{table_name}'")
     cur.execute(f"CREATE TABLE {table_name}({columns})")
