@@ -7,18 +7,18 @@ from  sqliteMode import *
 def registrations():
     """route for  register users"""
     try:
-        idUser = GenerateAlfNumStr(10)
-        idBalance = GenerateAlfNumStr(10)
-        INNSI = f'"{idUser}", "{request.json["name"]}", "{request.json["numb"]}", "{request.json["id_tg"]}", "{request.json["surname"]}"'
-        check = InsertData(T="users", V=INNSI)
+        clientID = GenerateAlfNumStr(10)
+        INNSI = f'"{clientID}", "{request.json["tg_id"]}", "{request.json["name"]}", "{request.json["email"]}", "{request.json["phone"]}"'
 
+        check = InsertData('clients', INNSI)
         con.commit()
         if len(check) > 1:
-            return jsonify({"action": "success", "id": idUser})
+            return jsonify({"action": "success", "id": clientID})
         else:
-            return jsonify({"action": "errorData"})
+            return jsonify({"action": "errorDataASDSA"})
     except Exception as e:
         log_error(e)
+        print(e)
         return jsonify({"action": "errorData"})
 
 
