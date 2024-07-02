@@ -16,7 +16,8 @@ def CreateTable(table_name):
     match table_name:
         case 'users':
             columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
-
+        case 'orders':
+            columns = 'order_id TEXT, client_id TEXT, pet_id TEXT, order_type TEXT, OrderCreationDate TEXT, OrderCompletionDate TEXT, payment_status TEXT'
         case _:
             raise ValueError(f"Unknown table name '{table_name}'")
     cur.execute(f"CREATE TABLE {table_name}({columns})")

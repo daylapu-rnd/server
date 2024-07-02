@@ -51,7 +51,22 @@ def ProfileCommand():
         user_data = SelectData("clients", "tg_id", request_id)
         if user_data:
             return jsonify({"action": "success", "data": user_data})
-        return jsonify({"action": "errorData", "data": f"error {request_id}"})
+        return jsonify({"action": "errorData", "data": f"error"})
     except Exception as e:
+        log_error(e)
         return jsonify({"action": "errorData"})
 
+
+
+@app.route('/client/get_orders', methods=['POST'])
+def get_orders():
+    """route for get all orders of client"""
+    request_id = request.json["client_id"]
+    try:
+        orders_data = SelectData("orders", "client_id", request_id)
+        if orders_data:
+            return jsonify({"action": "success", "data": orders_data})
+        return jsonify({"action": "errorData", "data": f"error"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
