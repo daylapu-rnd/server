@@ -21,7 +21,7 @@ def registrations():
         return jsonify({"action": "errorData"})
 
 
-@app.route('/profile/change_info', methods=['POST'])
+@app.route('/client/profile/change_info', methods=['POST'])
 def profile_change_info():
     """route for change user info"""
     try:
@@ -37,4 +37,21 @@ def profile_change_info():
         return jsonify({"action": "errorData"})
     except Exception as e:
         log_error(e)
-        return jsonify({"action": "errorData 2"})
+        return jsonify({"action": "errorData"})
+
+
+@app.route('/client/profile', methods=['POST'])
+def ProfileCommand():
+    """
+        Admin route for retrieving all users.
+    """
+    request_id = request.json["tg_id"]
+    try:
+        # Example of retrieving data from your database (modify as per your database structure):
+        user_data = SelectData("clients", "tg_id", request_id)
+        if user_data:
+            return jsonify({"action": "success", "data": user_data})
+        return jsonify({"action": "errorData", "data": f"error {request_id}"})
+    except Exception as e:
+        return jsonify({"action": "errorData"})
+
