@@ -17,7 +17,8 @@ def CreateTable(table_name):
         case 'users':
             columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
         case 'orders':
-            columns = 'order_id TEXT, client_id TEXT, pet_id TEXT, order_type TEXT, OrderCreationDate TEXT, OrderCompletionDate TEXT, payment_status TEXT'
+            columns = '''order_id TEXT, client_id TEXT, pet_id TEXT, service_type TEXT, start_date TEXT, start_time TEXT, end_date TEXT, end_time TEXT, service_details TEXT,
+                    options TEXT, region TEXT, city TEXT, district TEXT, street TEXT, house TEXT, building TEXT, apartment TEXT, status TEXT'''
         case _:
             raise ValueError(f"Unknown table name '{table_name}'")
     cur.execute(f"CREATE TABLE {table_name}({columns})")
@@ -44,6 +45,23 @@ def InsertData(T, V, C=""):
         return [1, 2]
     except Exception as e:
         log_error(e)
+        return []
+
+
+def SelectAllData(T, C, V, S="*"):
+    """Sending an array of data from a database"""
+    try:
+        cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
+        data = cur.fetchall()
+        newList = [
+            [
+                dict(zip([key[0] for key in cur.description], row))
+                for row in data
+            ][i]
+            for i in range(len(data))
+        ]
+        return newList
+    except Exception as e:
         return []
 
 
