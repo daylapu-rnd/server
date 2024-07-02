@@ -7,22 +7,20 @@ from _datetime import datetime
 def registrations():
     """route for  register users"""
     try:
-        idUser = GenerateAlfNumStr(10)
-        idBalance = GenerateAlfNumStr(10)
-        INNSI = f'"{idUser}", "{request.json["name"]}", "{request.json["numb"]}", "{request.json["id_tg"]}", "{request.json["surname"]}"'
-        check = InsertData(T="users", V=INNSI)
+        clientID = GenerateAlfNumStr(10)
+        INNSI = f'"{clientID}", "{request.json["id_tg"]}", "{request.json["name"]}", "{request.json["email"]}", "{request.json["phone"]}"'
 
+        check = InsertData('clients', INNSI)
         con.commit()
         if len(check) > 1:
-            return jsonify({"action": "success", "id": idUser})
+            return jsonify({"action": "success", "id": clientID})
         else:
             return jsonify({"action": "errorData"})
     except Exception as e:
-        log_error(e)
         return jsonify({"action": "errorData"})
 
 
-@app.route('/profile/change_info', methods=['POST'])
+@app.route('/client/profile/change_info', methods=['POST'])
 def profile_change_info():
     """route for change user info"""
     try:
@@ -38,7 +36,67 @@ def profile_change_info():
         return jsonify({"action": "errorData"})
     except Exception as e:
         log_error(e)
-        return jsonify({"action": "errorData 2"})
+        return jsonify({"action": "errorData"})
+
+
+@app.route('/admin/get_all', methods=['POST'])
+def AdminGetAll():
+    """
+        Admin route for retrieving all users.
+        """
+    try:
+        # Example of retrieving data from your database (modify as per your database structure):
+        user_data = SelectAllData("users", "*")
+        if user_data:
+            return jsonify({"action": "success", "data": user_data})
+        else:
+            return jsonify({"action": "errorData", "data": "error"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
+
+
+@app.route('/client/profile', methods=['POST'])
+def ProfileCommand():
+    """
+        Admin route for retrieving all users.
+    """
+    request_id = request.json["tg_id"]
+    try:
+        # Example of retrieving data from your database (modify as per your database structure):
+        user_data = SelectData("clients", "tg_id", request_id)
+        if user_data:
+            return jsonify({"action": "success", "data": user_data})
+        return jsonify({"action": "errorData", "data": f"error"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
+
+
+
+@app.route('/client/get_orders', methods=['POST'])
+def get_orders():
+    """route for get all orders of client"""
+    request_id = request.json["client_id"]
+    try:
+        orders_data = SelectData("orders", "client_id", request_id)
+        if orders_data:
+            return jsonify({"action": "success", "data": orders_data})
+        return jsonify({"action": "errorData", "data": f"error"})
+    except Exception as e:
+        log_error(e)
+    request_id = request.json["id_tg"]
+    try:
+        # Example of retrieving data from your database (modify as per your database structure):
+        user_data = SelectData("users", "id_tg", request_id)
+        if user_data:
+            return jsonify({"action": "success", "data": user_data})
+        else:
+            return jsonify({"action": "errorData", "data": "error"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
+
 
 
 @app.route('/consent/save_response', methods=['POST'])
