@@ -70,3 +70,22 @@ def get_orders():
     except Exception as e:
         log_error(e)
         return jsonify({"action": "errorData"})
+
+
+@app.route('/profile/change_info', methods=['POST'])
+def profile_change_info():
+    """route for change user info"""
+    try:
+        tg_id = request.json['tg_id']
+        client_name = request.json['name']
+        client_email = request.json['email']
+        client_phone = request.json['phone']
+        updateable_table = "('name', 'email', 'phone')"
+        values = f'"{client_name}", "{client_email}", "{client_phone}"'
+        check = UpdateData("clients", updateable_table, values, "tg_id", tg_id)
+        if len(check) > 1:
+            return jsonify({"action": "success"})
+        return jsonify({"action": "errorData"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData 2"})
