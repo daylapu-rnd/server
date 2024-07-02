@@ -78,7 +78,7 @@ def UpdateData(T, U, S, C, V):
 
 
 
-def SelectAllData(T, C, V, S="*"):
+def SelectAllDataWithConditions(T, C, V, S="*"):
     """Sending an array of data from a database"""
     try:
         cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
@@ -94,7 +94,6 @@ def SelectAllData(T, C, V, S="*"):
     except Exception as e:
         log_error(e)
         return []
-
 
 def SelectAllData(T, S="*"):
     """Sending an array of data from a database"""
@@ -112,7 +111,7 @@ def SelectAllData(T, S="*"):
     except Exception as e:
         return []
 
-
+      
 def SelectData(T, C, V, S="*"):
     """Sending data from the database"""
     try:
