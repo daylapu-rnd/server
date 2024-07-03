@@ -21,6 +21,22 @@ def registrations():
         log_error(e)
         print(e)
         return jsonify({"action": "errorData"})
+    
+@app.route('/client/getOne', methods=['POST'])
+def getOneClient():
+    """
+        function to find info about user
+        used in authorisation func in tg_bot
+    """
+    try:
+        request_id = request.json["tg_id"]
+        user_data = SelectData("clients", "tg_id", request_id)
+        if user_data:
+            return jsonify({"action": "success", "data": user_data})
+        return jsonify({"action": "No such client"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
 
 
 @app.route('/client/profile/change_info', methods=['POST'])
