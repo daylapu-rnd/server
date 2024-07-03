@@ -18,7 +18,7 @@ def CreateTable(table_name):
             columns = 'client_id TEXT, tg_id TEXT, name TEXT, email TEXT, phone TEXT'
         case 'orders':
             columns = '''order_id TEXT, client_id TEXT, pet_id TEXT, service_type TEXT, start_date TEXT, start_time TEXT, end_date TEXT, end_time TEXT, service_details TEXT,
-            options TEXT, region TEXT, city TEXT, district TEXT, street TEXT, house TEXT, building TEXT, apartment TEXT, status TEXT'''
+                                options TEXT, region TEXT, city TEXT, district TEXT, street TEXT, house TEXT, building TEXT, apartment TEXT, status TEXT'''
         case 'pets':
             columns = 'pet_id TEXT, client_id TEXT, pet_name TEXT, pet_type TEXT, sex TEXT, bitrhday TEXT, features TEXT, sterilization INT'
         case 'executors':
@@ -27,6 +27,8 @@ def CreateTable(table_name):
             columns = 'payment_exec_id TEXT, executor_id, payment_date TEXT, summ TEXT'
         case 'executor_passport':
             columns = 'passport_id TEXT, executor_id TEXT, series TEXT, numb TEXT, date_of_issue TEXT, plase_of_registration TEXT, division_code TEXT, marital_status TEXT'
+        case 'agreement':
+            columns = 'id_agreement TEXT, user_tg_id TEXT, response INT, datetime TEXT'
         case _:
             raise ValueError(f"Unknown table name '{table_name}'")
     cur.execute(f"CREATE TABLE {table_name}({columns})")
@@ -79,8 +81,7 @@ def UpdateData(T, U, S, C, V):
         return[]
 
 
-
-def SelectAllDataWithConditions(T, C, V, S="*"):
+def SelectAllData(T, C, V, S="*"):
     """Sending an array of data from a database"""
     try:
         cur.execute(f'SELECT {S} FROM {T} WHERE {C} = "{V}"')
@@ -94,27 +95,5 @@ def SelectAllDataWithConditions(T, C, V, S="*"):
         ]
         return newList
     except Exception as e:
-        log_error(e)
         return []
-
-def SelectAllData(T, S="*"):
-    """Sending an array of data from a database"""
-    try:
-        cur.execute(f'SELECT {S} FROM {T}')
-        data = cur.fetchall()
-        newList = [
-            [
-                dict(zip([key[0] for key in cur.description], row))
-                for row in data
-            ][i]
-            for i in range(len(data))
-        ]
-        return newList
-    except Exception as e:
         log_error(e)
-        return []
-
-
-
-
-
