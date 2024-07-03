@@ -95,5 +95,23 @@ def SelectAllData(T, C, V, S="*"):
         ]
         return newList
     except Exception as e:
-        return []
         log_error(e)
+        return []
+
+
+def SelectAllAllData(T, S="*"):
+    """Sending an array of data from a database"""
+    try:
+        cur.execute(f'SELECT {S} FROM {T}')
+        data = cur.fetchall()
+        newList = [
+            [
+                dict(zip([key[0] for key in cur.description], row))
+                for row in data
+            ][i]
+            for i in range(len(data))
+        ]
+        return newList
+    except Exception as e:
+        log_error(e)
+        return []
