@@ -3,7 +3,7 @@ from  sqliteMode import *
 from _datetime import datetime
 
 
-@app.route('/registrations', methods=['POST'])
+@app.route('/client/registrations', methods=['POST'])
 def registrations():
     """route for  register users"""
     try:
@@ -15,7 +15,7 @@ def registrations():
         if len(check) > 1:
             return jsonify({"action": "success", "id": clientID})
         else:
-            return jsonify({"action": "errorDataASDSA"})
+            return jsonify({"action": "errorData"})
     except Exception as e:
         log_error(e)
         print(e)
