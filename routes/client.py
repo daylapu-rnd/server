@@ -75,23 +75,6 @@ def ProfileClientCommand():
         return jsonify({"action": "errorData"})
 
 
-@app.route('/user/profile', methods=['POST'])
-def ProfileUserCommand():
-    """
-        Admin route for retrieving all users.
-    """
-    request_id = request.json["tg_id"]
-    try:
-        # Example of retrieving data from your database (modify as per your database structure):
-        user_data = SelectData("users", "tg_id", request_id)
-        if user_data:
-            return jsonify({"action": "success", "data": user_data})
-        return jsonify({"action": "errorData", "data": f"error"})
-    except Exception as e:
-        log_error(e)
-        return jsonify({"action": "errorData"})
-
-
 @app.route('/client/get_orders', methods=['POST'])
 def get_orders():
     """route for get all orders of client"""
