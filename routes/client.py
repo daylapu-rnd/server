@@ -2,12 +2,14 @@ from loader import *
 from  sqliteMode import *
 from _datetime import datetime
 
-@app.route('/registrations', methods=['POST'])
+
+@app.route('/client/registrations', methods=['POST'])
+
 def registrations():
     """route for  register users"""
     try:
         clientID = GenerateAlfNumStr(10)
-        INNSI = f'"{clientID}", "{request.json["id_tg"]}", "{request.json["name"]}", "{request.json["email"]}", "{request.json["phone"]}"'
+        INNSI = f'"{clientID}", "{request.json["tg_id"]}", "{request.json["name"]}", "{request.json["email"]}", "{request.json["phone"]}"'
 
         check = InsertData('clients', INNSI)
         con.commit()
@@ -16,6 +18,8 @@ def registrations():
         else:
             return jsonify({"action": "errorData"})
     except Exception as e:
+        log_error(e)
+        print(e)
         return jsonify({"action": "errorData"})
 
 
