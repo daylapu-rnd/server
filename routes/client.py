@@ -58,11 +58,9 @@ def AdminGetAll():
         log_error(e)
         return jsonify({"action": "errorData"})
 
+
 @app.route('/client/profile', methods=['POST'])
 def ProfileCommand():
-    """
-        Admin route for retrieving all users.
-    """
     request_id = request.json["tg_id"]
     try:
         # Example of retrieving data from your database (modify as per your database structure):
@@ -75,12 +73,26 @@ def ProfileCommand():
         return jsonify({"action": "errorData"})
 
 
-@app.route('/client/get_orders', methods=['POST'])
+@app.route('/client/get_client', methods=['GET'])
+def get_client():
+    """route for get client info by tg_id"""
+    tg_id = request.json['tg_id']
+    try:
+        client_data = SelectData("clients", "tg_id", tg_id)
+        if client_data:
+            return jsonify({"action": "success", "data": client_data})
+        return jsonify({"action": "errorData", "data": "error"})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
+
+
+@app.route('/client/orders/get_orders', methods=['POST'])
 def get_orders():
     """route for get all orders of client"""
     request_id = request.json["client_id"]
     try:
-        orders_data = SelectData("orders", "client_id", request_id)
+        orders_data = SelectAllData("orders", "client_id", request_id)
         if orders_data:
             return jsonify({"action": "success", "data": orders_data})
         return jsonify({"action": "errorData", "data": f"error"})
@@ -103,7 +115,6 @@ def create_order():
     except Exception as e:
         log_error(e)
         return jsonify({"action": "errorData"})
-
 
 
 @app.route('/client/orders/get_order', methods=['POST'])
@@ -181,8 +192,6 @@ def saveUserConsent():
             return jsonify({"action": "errorData"})
     except Exception as e:
         return jsonify({"action": "errorData"})
-
-
 
 
 @app.route('/consent/get_response', methods=['POST'])
