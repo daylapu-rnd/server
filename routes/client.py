@@ -57,9 +57,7 @@ def AdminGetAll():
 
 @app.route('/client/profile', methods=['POST'])
 def ProfileCommand():
-    """
-        Admin route for retrieving all users.
-    """
+
     request_id = request.json["tg_id"]
     try:
         # Example of retrieving data from your database (modify as per your database structure):
