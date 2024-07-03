@@ -45,7 +45,7 @@ def AdminGetAll():
         """
     try:
         # Example of retrieving data from your database (modify as per your database structure):
-        user_data = SelectAllData("clients", "*")
+        user_data = SelectAllData("users", "*")
         if user_data:
             return jsonify({"action": "success", "data": user_data})
         else:
