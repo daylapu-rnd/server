@@ -15,3 +15,14 @@ def get_users_by_status():
     except Exception as e:
         log_error(e)
         return jsonify({"action": "errorData"})
+    
+
+@app.route('/admin/search_user', methods=['POST'])
+def search_user():
+    """route for getting user by phone number"""
+    try:
+        data = SelectAllData("clients", "phone", request.json["phone"])
+        return jsonify({"action": "success", "data": data})
+    except Exception as e:
+        log_error(e)
+        return jsonify({"action": "errorData"})
